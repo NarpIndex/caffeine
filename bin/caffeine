@@ -1,0 +1,26 @@
+#!/bin/bash
+
+CAFFEINE="$HOME/.caffeine"
+SOURCE_DIR="/usr/bitey/software/caffeine"
+
+if [[ ! -d "$CAFFEINE" ]]; then
+  echo "🔄 Setting up Caffeine..."
+  if [[ -d "$SOURCE_DIR/.git" ]]; then
+    git config --global --add safe.directory "$SOURCE_DIR"
+  fi
+  if ! git clone "$SOURCE_DIR" "$CAFFEINE"; then
+    echo "❌ Failed to clone Caffeine from $SOURCE_DIR"
+    exit 1
+  fi
+  echo
+  echo "✅ Caffeine installed!"
+fi
+
+# Load version info
+if [[ -f "$CAFFEINE/pak.conf" ]]; then
+  source "$CAFFEINE/pak.conf"
+  echo "🤎 Caffeine $PACKAGE_VERSION"
+else
+  echo "❌ pak.conf not found in $CAFFEINE"
+  exit 1
+fi
