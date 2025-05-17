@@ -21,7 +21,7 @@
 
 ---
 
-📦 Installation
+## 📦 Installation
 Using Bitey:
 
 ```
