@@ -5,13 +5,7 @@ SOURCE_DIR="/usr/bitey/software/caffeine"
 
 if [[ ! -d "$CAFFEINE" ]]; then
   echo "🔄 Setting up Caffeine..."
-  if [[ -d "$SOURCE_DIR/.git" ]]; then
-    git config --global --add safe.directory "$SOURCE_DIR"
-  fi
-  if ! git clone "$SOURCE_DIR" "$CAFFEINE"; then
-    echo "❌ Failed to clone Caffeine from $SOURCE_DIR."
-    exit 1
-  fi
+  cp -r /usr/bitey/software/caffeine $HOME/.caffeine
   echo
   echo "✅ Caffeine installed!"
 fi
