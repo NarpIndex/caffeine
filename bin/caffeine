@@ -50,6 +50,8 @@ if [[ "$1" == "plugin" ]]; then
         exit 0
     fi
     if [[ "$2" == "remove" ]]; then
+        if [[ -z "$PLUGIN" ]]; then
+            echo "❌ Please specify a plugin name."
         if [[ ! -d "$PLUGIN_DIR" ]]; then
             echo "❌ No such plugin $PLUGIN."
             exit 1
