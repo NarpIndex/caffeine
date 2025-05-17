@@ -9,7 +9,7 @@ if [[ ! -d "$CAFFEINE" ]]; then
     git config --global --add safe.directory "$SOURCE_DIR"
   fi
   if ! git clone "$SOURCE_DIR" "$CAFFEINE"; then
-    echo "❌ Failed to clone Caffeine from $SOURCE_DIR"
+    echo "❌ Failed to clone Caffeine from $SOURCE_DIR."
     exit 1
   fi
   echo
@@ -21,6 +21,39 @@ if [[ -f "$CAFFEINE/pak.conf" ]]; then
   source "$CAFFEINE/pak.conf"
   echo "🤎 Caffeine $PACKAGE_VERSION"
 else
-  echo "❌ pak.conf not found in $CAFFEINE"
+  echo "❌ pak.conf not found in $CAFFEINE."
   exit 1
+fi
+
+if [[ "$1" == "plugin" ]]; then
+    PLUGIN="$3"
+    if [[ "$2" == "install" ]]; then
+        if [[ -z "$PLUGIN" ]]; then
+            echo "❌ Please specify a plugin name."
+            exit 1
+        fi
+
+        PLUGIN_DIR="$CAFFEINE/plugins/$PLUGIN"
+
+        if [[ -d "$PLUGIN_DIR" ]]; then
+            echo "⚠️ Plugin $PLUGIN is already installed at $PLUGIN_DIR."
+            exit 1
+        fi
+
+        echo "📦 Installing plugin $PLUGIN..."
+        if ! git clone "https://github.com/CaffeineGallery/$PLUGIN" "$PLUGIN_DIR"; then
+            echo "❌ Failed to install $PLUGIN."
+            exit 1
+        fi
+
+        INSTALL_SCRIPT="$PLUGIN_DIR/scripts/install.sh"
+        if [[ -f "$INSTALL_SCRIPT" ]]; then
+            bash "$INSTALL_SCRIPT"
+        else
+            echo "⚠️ No install script found for $PLUGIN. Skipping install step."
+        fi
+
+        echo "✅ Installed plugin $PLUGIN!"
+        exit 0
+    fi
 fi
