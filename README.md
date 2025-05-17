@@ -1,2 +1,2 @@
-![Logo](/media/caffeine)
+![Logo](/media/caffeine.png)
 # 🤎 Caffeine
