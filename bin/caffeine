@@ -21,13 +21,12 @@ fi
 
 if [[ "$1" == "plugin" ]]; then
     PLUGIN="$3"
+    PLUGIN_DIR="$CAFFEINE/plugins/$PLUGIN"
     if [[ "$2" == "install" ]]; then
         if [[ -z "$PLUGIN" ]]; then
             echo "❌ Please specify a plugin name."
             exit 1
         fi
-
-        PLUGIN_DIR="$CAFFEINE/plugins/$PLUGIN"
 
         if [[ -d "$PLUGIN_DIR" ]]; then
             echo "⚠️ Plugin $PLUGIN is already installed at $PLUGIN_DIR."
@@ -48,6 +47,18 @@ if [[ "$1" == "plugin" ]]; then
         fi
 
         echo "✅ Installed plugin $PLUGIN!"
+        exit 0
+    fi
+    if [[ "$2" == "remove" ]]; then
+        if [[ ! -d "$PLUGIN_DIR" ]]; then
+            echo "❌ No such plugin $PLUGIN."
+            exit 1
+        fi
+        if [[ -f "$PLUGIN_DIR/scripts/remove.sh" ]]; then
+            bash "$PLUGIN_DIR/scripts/remove.sh"
+        fi
+        rm -rf "$PLUGIN_DIR"
+        echo "✅ Removed plugin $PLUGIN."
         exit 0
     fi
 fi
