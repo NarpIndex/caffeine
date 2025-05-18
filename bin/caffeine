@@ -22,7 +22,7 @@ fi
 if [[ "$1" == "plugin" && "$2" == "update" ]]; then
   echo "🔄 Updating all Caffeine plugins..."
 
-  for plugin_dir in "$CAFFEINE/plugins/"*/; do
+  for plugin_dir in "$CAFFEINE/plugins/"*; do
     if [[ -d "$plugin_dir/.git" ]]; then
       echo "🔧 Updating plugin: $(basename "$plugin_dir")"
       git -C "$plugin_dir" reset --hard HEAD
