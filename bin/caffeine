@@ -1,13 +1,37 @@
 #!/bin/bash
 
 CAFFEINE="$HOME/.caffeine"
+CAFFEINE_PATCHES="$HOME/.coffee/patches/caffeine"
 SOURCE_DIR="/usr/bitey/software/caffeine"
+
+patch_coffee() {
+    if [[ -d "$CAFFEINE_PATCHES" ]]; then
+        rm -rf -- "$CAFFEINE_PATCHES"
+    fi
+
+    echo "🔄 Patching Coffee..."
+
+    mkdir -p -- "$CAFFEINE_PATCHES"
+
+    if [[ -d "$CAFFEINE/patches" ]]; then
+        cp -r -- "$CAFFEINE/patches/"* "$CAFFEINE_PATCHES/"
+        echo "✅ Patched Coffee!"
+    else
+        echo "❌ Patch source directory not found: $CAFFEINE/patches"
+    fi
+}
 
 if [[ ! -d "$CAFFEINE" ]]; then
   echo "🔄 Setting up Caffeine..."
   cp -r /usr/bitey/software/caffeine $HOME/.caffeine
-  echo
+  if [[ ! -d "$CAFFEINE_PATCHES" ]]; then
+      patch_coffee
+  fi
   echo "✅ Caffeine installed!"
+fi
+
+if [[ ! -d "$CAFFEINE_PATCHES" ]]; then
+    patch_coffee
 fi
 
 # Load version info
@@ -88,4 +112,8 @@ if [[ "$1" == "plugin" ]]; then
         echo "✅ Removed plugin $PLUGIN."
         exit 0
     fi
+fi
+
+if [[ "$1" == "repatch" ]]; then
+    patch_coffee
 fi
