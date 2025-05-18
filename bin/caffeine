@@ -27,6 +27,9 @@ if [[ "$1" == "plugin" && "$2" == "update" ]]; then
       echo "🔧 Updating plugin: $(basename "$plugin_dir")"
       git -C "$plugin_dir" reset --hard HEAD
       git -C "$plugin_dir" pull --quiet
+      if [[ -f "$plugin_dir/scripts/update.sh" ]]; then
+          bash "$plugin_dir/scripts/update.sh"
+      fi
       chmod +x "$plugin_dir/bin/"
     else
       echo "⚠️ Skipping $(basename "$plugin_dir") (not a Git repo)"
