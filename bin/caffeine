@@ -13,6 +13,8 @@ fi
 # Load version info
 if [[ -f "$CAFFEINE/pak.conf" ]]; then
   source "$CAFFEINE/pak.conf"
+  cat "$CAFFEINE/caffeine.txt"
+  echo
   echo "🤎 Caffeine $PACKAGE_VERSION"
 else
   echo "❌ pak.conf not found in $CAFFEINE."
