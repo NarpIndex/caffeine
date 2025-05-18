@@ -19,6 +19,22 @@ else
   exit 1
 fi
 
+if [[ "$1" == "plugin" && "$2" == "update" ]]; then
+  echo "🔄 Updating all Caffeine plugins..."
+
+  for plugin_dir in "$CAFFEINE/plugins/"*/; do
+    if [[ -d "$plugin_dir/.git" ]]; then
+      echo "🔧 Updating plugin: $(basename "$plugin_dir")"
+      git -C "$plugin_dir" pull --quiet
+    else
+      echo "⚠️ Skipping $(basename "$plugin_dir") (not a Git repo)"
+    fi
+  done
+
+  echo "✅ Plugin update complete."
+  exit 0
+fi
+
 if [[ "$1" == "plugin" ]]; then
     PLUGIN="$3"
     PLUGIN_DIR="$CAFFEINE/plugins/$PLUGIN"
